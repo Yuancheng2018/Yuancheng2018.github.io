@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    qiu的博客
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a class="logo">qiu</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/th.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >FastJson反序列化漏洞复现</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a><strong>介绍</strong></h1><h3 id="Fastjson："><a href="#Fastjson：" class="headerlink" title="Fastjson："></a>Fastjson：</h3><p> fastjson是java的一个库，可以将java对象转化为json格式的字符串，也可以将json格式的字符串转化为java对象，提供了 toJSONString() 和 parseObject() 方法。调用toJSONString方 法即可将对象转换成 JSON 字符串，parseObject 方法则反过来将 JSON 字符串转换成对象。</p>
+<h3 id="原理："><a href="#原理：" class="headerlink" title="原理："></a>原理：</h3><p> Fastjson在fastjson在解析json的过程中，支持使用autoType来实例化某一个具体的类，在payload中通过@type来指明类名，会调用该类的set&#x2F;get方法来访问属性。通过查找代码中相关的方法，com.sun.rowset.JdbcRowSetlmpl类中有很多setxxx方法，其中setDataSourceName()和setAutoCommit()这两个方法可以利用。在其他类中也可通过跟进利用链来发现类似可控参数。</p>
+<p>setAutoCommit()：</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701123922818.png" class="" title="image-20220701123922818">
+
+<p>跟进connect:</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132128229.png" class="" title="image-20220701132128229">
+
+<p>有jndi的lookup方法调用，参数为getDataSourceName()</p>
+<p>getDataSourceName():</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132145920.png" class="" title="image-20220701132145920">
+
+<p>Name参数可控。</p>
+<h3 id="payload："><a href="#payload：" class="headerlink" title="payload："></a>payload：</h3><p> @type指明类名</p>
+<p> DataSourceName可控参数，因为在connect()中触发了look，调 用远程对象，可使用jdni注入或LDAP。</p>
+<p> autocommit为true时，反序列化会反射设置属性，调用最开始的 setautocommit()。</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132228111.png" class="" title="image-20220701132228111">
+
+<h1 id="复现"><a href="#复现" class="headerlink" title="复现"></a><strong>复现</strong></h1><h3 id="Fastjaon-1-2-24："><a href="#Fastjaon-1-2-24：" class="headerlink" title="Fastjaon 1.2.24："></a>Fastjaon 1.2.24：</h3><ol>
+<li><p>在靶机centos通过docker-compose启动vulnhub的fastjson环境:</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132328000.png" class="" title="image-20220701132328000">
+
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132347263.png" class="" title="image-20220701132347263">
+</li>
+<li><p>在攻击机编译恶意类Exploit，其中payload为反弹shell到攻击机6666端口</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132518228.png" class="" title="image-20220701132518228">
+
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132532157.png" class="" title="image-20220701132532157">
+</li>
+<li><p>在攻击机上开启http服务和rmi服务加载远程类Exploit并监听9999端口:</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132553689.png" class="" title="image-20220701132553689">
+
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132603949.png" class="" title="image-20220701132603949">
+</li>
+<li><p>在攻击机上监听6666端口，并向靶机centos提交payload，其中带上rmi服务地址：</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132624911.png" class="" title="image-20220701132624911">
+
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132636486.png" class="" title="image-20220701132636486">
+</li>
+<li><p>成功获取到shell。</p>
+</li>
+</ol>
+<h3 id="Fastjson-1-2-47"><a href="#Fastjson-1-2-47" class="headerlink" title="Fastjson 1.2.47:"></a>Fastjson 1.2.47:</h3><p>恶意类：</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132716276.png" class="" title="image-20220701132716276">
+
+<p>Rmi服务：</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132731192.png" class="" title="image-20220701132731192">
+
+<p>构造payload并提交后获取到shell</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132746713.png" class="" title="image-20220701132746713">
+
+<h1 id="Fastjson各版本绕过"><a href="#Fastjson各版本绕过" class="headerlink" title="Fastjson各版本绕过"></a><strong>Fastjson各版本绕过</strong></h1><p> 自从1.2.25 起 autotype 默认为False</p>
+<p> 增加 checkAutoType 方法，在该方法中进行黑名单校验，同时增加白名单机制</p>
+<p> 当autotype开启后，会先进白名单判断，当指定类名在白名单数组中某一元素开头才会继续加载。但默认白名单为空，所以会进到黑名单判断。</p>
+<p> 没有开启autotype，先进黑名单，在走白名单。</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132831196.png" class="" title="image-20220701132831196">
+
+<h3 id="1-2-25-1-2-41绕过："><a href="#1-2-25-1-2-41绕过：" class="headerlink" title="1.2.25-1.2.41绕过："></a>1.2.25-1.2.41绕过：</h3><h3 id=""><a href="#" class="headerlink" title=""></a><img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132851061.png" class="" title="image-20220701132851061"></h3><p>在类名前加上[“或“L“在结尾加上”;“,这些字符是JNI字段描述符，例如：”Ljava&#x2F;lang&#x2F;String;”就是表示类型String。在类名传递进去后会调用TypeUtils.loadClass判断了ClassName是否以L开头并且以;结尾，并且截取第一个开始到结尾的className作为新的类名，然后调用loadClass去加载类，实现绕过。</p>
+<h3 id="1-2-25-1-2-42绕过："><a href="#1-2-25-1-2-42绕过：" class="headerlink" title="1.2.25-1.2.42绕过："></a>1.2.25-1.2.42绕过：</h3><p> 在1.2.42中，删除了之前的黑白名单，采用acceptHashCodes和denyHashCodes</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701132940656.png" class="" title="image-20220701132940656">
+
+<p>可通过双写L和;绕过。在TypeUtils的的loadClass如果发现className是L开头;结尾的，他会去一直调用loadClass直到没有L和;为止。</p>
+<h3 id="1-2-25-1-2-43绕过："><a href="#1-2-25-1-2-43绕过：" class="headerlink" title="1.2.25-1.2.43绕过："></a>1.2.25-1.2.43绕过：</h3><h3 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701133006724.png" class="" title="image-20220701133006724"></h3><p>添加了过滤双写L和;，采用[绕过。</p>
+<h3 id="1-2-25-1-2-45绕过："><a href="#1-2-25-1-2-45绕过：" class="headerlink" title="1.2.25-1.2.45绕过："></a>1.2.25-1.2.45绕过：</h3><p> .44版本对[的绕过做了过滤，当第一个字符为[时会抛出异常。</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701133038815.png" class="" title="image-20220701133038815">
+
+<p>因为org.apache.ibatis.datasource.jndi.JndiDataSourceFactory不在黑名单中可绕过检测，因为传入properties会调用setProperties方法进而触发JNDI，从而实现绕过。</p>
+<h3 id="1-2-25-1-2-47绕过"><a href="#1-2-25-1-2-47绕过" class="headerlink" title="1.2.25-1.2.47绕过"></a>1.2.25-1.2.47绕过</h3><p> · 1.2.25-1.2.32版本：不能开启AutoType</p>
+<p> · 1.2.33-1.2.47版本：无论是否开启AutoType，都能成功利用</p>
+<img src="/2022/07/01/FastJson_deserialization/20220701-FastJson_deserialization/image-20220701133125663.png" class="" title="image-20220701133125663">
+
+<p>未开启AutoTypeSupport，所以就不会进入黑白名单判断的逻辑.因为type的值是java.lang.Class，所以可以直接findClass，最后返回clazz。</p>
+<h1 id="传感器检测："><a href="#传感器检测：" class="headerlink" title="传感器检测："></a><strong>传感器检测：</strong></h1><p> 因为反弹shell在http响应体中没有数据，告警为失败。在告警分析中可以查看该告警前后的其他告警，例如此处可以从前后的“远程加载恶意java文件”中发现反弹shell的payload。并且发现“linux反弹shell”告警为失陷。</p>
+<h1 id="特征："><a href="#特征：" class="headerlink" title="特征："></a><strong>特征：</strong></h1><h3 id="利用dnslog探测："><a href="#利用dnslog探测：" class="headerlink" title="利用dnslog探测："></a>利用dnslog探测：</h3><ol>
+<li>利用类名为：java.net.Inet4Address，java.net.InetSocketAddress，java.net.URL，com.sun.rowset.JdbcRowSetImpl</li>
+<li>请求体中包含dnslog字样</li>
+</ol>
+<h3 id="远程调用类-jndi、ldap-："><a href="#远程调用类-jndi、ldap-：" class="headerlink" title="远程调用类(jndi、ldap)："></a>远程调用类(jndi、ldap)：</h3><ol>
+<li>命令执行类响应体中有回显</li>
+<li>反弹shell无响应体，传感器报失败，同时产生远程调用恶意java文件，其中可以看到payload</li>
+</ol>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;2021.02.25<a href="" style="border-bottom: none;"></a></li>
+                <li>Create By <a target="_blank" rel="noopener" href="http://81.69.247.241" style="border-bottom: none;">qiu</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2022 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
