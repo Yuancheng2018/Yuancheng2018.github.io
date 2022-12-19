@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    qiu的博客
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a class="logo">qiu</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/2022/09/07/Python_deserialization/Python_deserialization/th.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Python反序列化漏洞</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h2 id="介绍："><a href="#介绍：" class="headerlink" title="介绍："></a>介绍：</h2><p>序列化和反序列化是将一个类对象向字节流转化从而进行存储和传输, 然后使用的时候再将字节流转化回原始的对象的一个过程。</p>
+<p>Python中序列化一般有两种方式: pickle模块和json模块, 前者是Python特有的格式, 后者是json通用的格式</p>
+<p><strong>Pickle&#x2F;CPickle:</strong></p>
+<p>两个模块都可实现序列化，CPickle由C实现，速度快，pickle纯python实现，速度慢，python3已经没有cpickle模块了</p>
+<table>
+<thead>
+<tr>
+<th align="left">函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">dump</td>
+<td align="left">对象反序列化到文件对象并存入文件</td>
+</tr>
+<tr>
+<td align="left">dumps</td>
+<td align="left">对象反序列化为 bytes 对象</td>
+</tr>
+<tr>
+<td align="left">load</td>
+<td align="left">对象反序列化并从文件中读取数据</td>
+</tr>
+<tr>
+<td align="left">loads</td>
+<td align="left">从 bytes 对象反序列化</td>
+</tr>
+</tbody></table>
+<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>Dumps:</p>
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907162502412.png" class="" title="image-20220907162502412">
+
+<p>上图为python3实现</p>
+<p>Python2实现：</p>
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907155610247.png" class="" title="image-20220907155610247">
+
+<p>Python2输出为PVM操作码</p>
+<h2 id="PVM"><a href="#PVM" class="headerlink" title="PVM"></a>PVM</h2><p>执行python代码时，PVM会把源代码编译成字节码，python进程会把编译好的字节码转发到PVM（python虚拟机）中，PVM会循环迭代执行字节码指令。</p>
+<p>上图PVM码的具体含义可在pickle.py中查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"># Pickle opcodes.  See pickletools.py for extensive docs.  The listing</span><br><span class="line"># here is in kind-of alphabetical order of 1-character pickle code.</span><br><span class="line"># pickletools groups them by purpose.</span><br><span class="line"></span><br><span class="line">MARK           &#x3D; b&#39;(&#39;   # push special markobject on stack</span><br><span class="line">STOP           &#x3D; b&#39;.&#39;   # every pickle ends with STOP</span><br><span class="line">POP            &#x3D; b&#39;0&#39;   # discard topmost stack item</span><br><span class="line">POP_MARK       &#x3D; b&#39;1&#39;   # discard stack top through topmost markobject</span><br><span class="line">DUP            &#x3D; b&#39;2&#39;   # duplicate top stack item</span><br><span class="line">FLOAT          &#x3D; b&#39;F&#39;   # push float object; decimal string argument</span><br><span class="line">INT            &#x3D; b&#39;I&#39;   # push integer or bool; decimal string argument</span><br><span class="line">BININT         &#x3D; b&#39;J&#39;   # push four-byte signed int</span><br><span class="line">BININT1        &#x3D; b&#39;K&#39;   # push 1-byte unsigned int</span><br><span class="line">LONG           &#x3D; b&#39;L&#39;   # push long; decimal string argument</span><br><span class="line">BININT2        &#x3D; b&#39;M&#39;   # push 2-byte unsigned int</span><br><span class="line">NONE           &#x3D; b&#39;N&#39;   # push None</span><br><span class="line">PERSID         &#x3D; b&#39;P&#39;   # push persistent object; id is taken from string arg</span><br><span class="line">BINPERSID      &#x3D; b&#39;Q&#39;   #  &quot;       &quot;         &quot;  ;  &quot;  &quot;   &quot;     &quot;  stack</span><br><span class="line">REDUCE         &#x3D; b&#39;R&#39;   # apply callable to argtuple, both on stack</span><br><span class="line">STRING         &#x3D; b&#39;S&#39;   # push string; NL-terminated string argument</span><br><span class="line">BINSTRING      &#x3D; b&#39;T&#39;   # push string; counted binary string argument</span><br><span class="line">SHORT_BINSTRING&#x3D; b&#39;U&#39;   #  &quot;     &quot;   ;    &quot;      &quot;       &quot;      &quot; &lt; 256 bytes</span><br><span class="line">UNICODE        &#x3D; b&#39;V&#39;   # push Unicode string; raw-unicode-escaped&#39;d argument</span><br><span class="line">BINUNICODE     &#x3D; b&#39;X&#39;   #   &quot;     &quot;       &quot;  ; counted UTF-8 string argument</span><br><span class="line">APPEND         &#x3D; b&#39;a&#39;   # append stack top to list below it</span><br><span class="line">BUILD          &#x3D; b&#39;b&#39;   # call __setstate__ or __dict__.update()</span><br><span class="line">GLOBAL         &#x3D; b&#39;c&#39;   # push self.find_class(modname, name); 2 string args</span><br><span class="line">DICT           &#x3D; b&#39;d&#39;   # build a dict from stack items</span><br><span class="line">EMPTY_DICT     &#x3D; b&#39;&#125;&#39;   # push empty dict</span><br><span class="line">APPENDS        &#x3D; b&#39;e&#39;   # extend list on stack by topmost stack slice</span><br><span class="line">GET            &#x3D; b&#39;g&#39;   # push item from memo on stack; index is string arg</span><br><span class="line">BINGET         &#x3D; b&#39;h&#39;   #   &quot;    &quot;    &quot;    &quot;   &quot;   &quot;  ;   &quot;    &quot; 1-byte arg</span><br><span class="line">INST           &#x3D; b&#39;i&#39;   # build &amp; push class instance</span><br><span class="line">LONG_BINGET    &#x3D; b&#39;j&#39;   # push item from memo on stack; index is 4-byte arg</span><br><span class="line">LIST           &#x3D; b&#39;l&#39;   # build list from topmost stack items</span><br><span class="line">EMPTY_LIST     &#x3D; b&#39;]&#39;   # push empty list</span><br><span class="line">OBJ            &#x3D; b&#39;o&#39;   # build &amp; push class instance</span><br><span class="line">PUT            &#x3D; b&#39;p&#39;   # store stack top in memo; index is string arg</span><br><span class="line">BINPUT         &#x3D; b&#39;q&#39;   #   &quot;     &quot;    &quot;   &quot;   &quot; ;   &quot;    &quot; 1-byte arg</span><br><span class="line">LONG_BINPUT    &#x3D; b&#39;r&#39;   #   &quot;     &quot;    &quot;   &quot;   &quot; ;   &quot;    &quot; 4-byte arg</span><br><span class="line">SETITEM        &#x3D; b&#39;s&#39;   # add key+value pair to dict</span><br><span class="line">TUPLE          &#x3D; b&#39;t&#39;   # build tuple from topmost stack items</span><br><span class="line">EMPTY_TUPLE    &#x3D; b&#39;)&#39;   # push empty tuple</span><br><span class="line">SETITEMS       &#x3D; b&#39;u&#39;   # modify dict by adding topmost key+value pairs</span><br><span class="line">BINFLOAT       &#x3D; b&#39;G&#39;   # push float; arg is 8-byte float encoding</span><br><span class="line"></span><br><span class="line">TRUE           &#x3D; b&#39;I01\n&#39;  # not an opcode; see INT docs in pickletools.py</span><br><span class="line">FALSE          &#x3D; b&#39;I00\n&#39;  # not an opcode; see INT docs in pickletools.py</span><br><span class="line"></span><br><span class="line"># Protocol 2</span><br><span class="line"></span><br><span class="line">PROTO          &#x3D; b&#39;\x80&#39;  # identify pickle protocol</span><br><span class="line">NEWOBJ         &#x3D; b&#39;\x81&#39;  # build object by applying cls.__new__ to argtuple</span><br><span class="line">EXT1           &#x3D; b&#39;\x82&#39;  # push object from extension registry; 1-byte index</span><br><span class="line">EXT2           &#x3D; b&#39;\x83&#39;  # ditto, but 2-byte index</span><br><span class="line">EXT4           &#x3D; b&#39;\x84&#39;  # ditto, but 4-byte index</span><br><span class="line">TUPLE1         &#x3D; b&#39;\x85&#39;  # build 1-tuple from stack top</span><br><span class="line">TUPLE2         &#x3D; b&#39;\x86&#39;  # build 2-tuple from two topmost stack items</span><br><span class="line">TUPLE3         &#x3D; b&#39;\x87&#39;  # build 3-tuple from three topmost stack items</span><br><span class="line">NEWTRUE        &#x3D; b&#39;\x88&#39;  # push True</span><br><span class="line">NEWFALSE       &#x3D; b&#39;\x89&#39;  # push False</span><br><span class="line">LONG1          &#x3D; b&#39;\x8a&#39;  # push long from &lt; 256 bytes</span><br><span class="line">LONG4          &#x3D; b&#39;\x8b&#39;  # push really big long</span><br><span class="line"></span><br><span class="line">_tuplesize2code &#x3D; [EMPTY_TUPLE, TUPLE1, TUPLE2, TUPLE3]</span><br><span class="line"></span><br><span class="line"># Protocol 3 (Python 3.x)</span><br><span class="line"></span><br><span class="line">BINBYTES       &#x3D; b&#39;B&#39;   # push bytes; counted binary string argument</span><br><span class="line">SHORT_BINBYTES &#x3D; b&#39;C&#39;   #  &quot;     &quot;   ;    &quot;      &quot;       &quot;      &quot; &lt; 256 bytes</span><br><span class="line"># Protocol 4</span><br><span class="line">SHORT_BINUNICODE &#x3D; b&#39;\x8c&#39;  # push short string; UTF-8 length &lt; 256 bytes</span><br><span class="line">BINUNICODE8      &#x3D; b&#39;\x8d&#39;  # push very long string</span><br><span class="line">BINBYTES8        &#x3D; b&#39;\x8e&#39;  # push very long bytes string</span><br><span class="line">EMPTY_SET        &#x3D; b&#39;\x8f&#39;  # push empty set on the stack</span><br><span class="line">ADDITEMS         &#x3D; b&#39;\x90&#39;  # modify set by adding topmost stack items</span><br><span class="line">FROZENSET        &#x3D; b&#39;\x91&#39;  # build frozenset from topmost stack items</span><br><span class="line">NEWOBJ_EX        &#x3D; b&#39;\x92&#39;  # like NEWOBJ but work with keyword only arguments</span><br><span class="line">STACK_GLOBAL     &#x3D; b&#39;\x93&#39;  # same as GLOBAL but using names on the stacks</span><br><span class="line">MEMOIZE          &#x3D; b&#39;\x94&#39;  # store top of the stack in memo</span><br><span class="line">FRAME            &#x3D; b&#39;\x95&#39;  # indicate the beginning of a new frame</span><br></pre></td></tr></table></figure>
+
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907162611730.png" class="" title="image-20220907162611730">
+
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907162611730-1458455.png" class="" title="image-20220907162611730">
+
+<h2 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h2><ul>
+<li>漏洞成因是在<strong>reduce</strong>()魔法函数上，当反序列化过程开始或者结束时 , 都会自动调用该函数。</li>
+<li>反序列化过程中，因为编程语言需要根据反序列化字符串去解析出自己独特的语言数据结构，所以就必须要在内部把解析出来的结构去执行一下。如果在反序列化过程中出现问题，便可能直接造成RCE漏洞。</li>
+<li>pickle.loads会解决import 问题，对于未引入的module会自动尝试import。那么也就是说整个python标准库的代码执行、命令执行函数都可以进行使用。</li>
+</ul>
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907154227811.png" class="" title="image-20220907154227811">
+
+<p>当 <strong>reduce</strong>() 函数返回一个元组时 , <strong>第一个元素</strong>是一个可调用对象 , 这个对象会在创建对象时被调用 . <strong>第二个元素</strong>是可调用对象的参数 , 同样是一个元组。这点跟我们上面提到的PVM中的R操作码功能相似，R操作码就是 <strong>reduce</strong>() 魔术函数的底层实现</p>
+<h2 id="反序列化漏洞利用"><a href="#反序列化漏洞利用" class="headerlink" title="反序列化漏洞利用"></a>反序列化漏洞利用</h2><p><strong>漏洞可能出现的位置：</strong></p>
+<ol>
+<li>解析认证token、session的时候</li>
+<li>将对象Pickle后存储成磁盘文件</li>
+<li>将对象Pickle后在网络中传输</li>
+<li>参数传递给程序</li>
+</ol>
+<p><strong>命令执行：</strong></p>
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907162858338.png" class="" title="image-20220907162858338">
+
+<img src="/2022/09/07/Python_deserialization/Python_deserialization/image-20220907161935642.png" class="" title="image-20220907161935642">
+
+<h2 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h2><ol>
+<li>采用用更高级的接口<strong>getnewargs()、__getstate</strong>()、<strong>setstate</strong>()等代替<strong>reduce</strong>()魔术方法</li>
+<li>进行反序列化操作之前进行严格的过滤, 若采用的是pickle库可采用装饰器实现</li>
+</ol>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;2021.02.25<a href="" style="border-bottom: none;"></a></li>
+                <li>Create By <a target="_blank" rel="noopener" href="http://81.69.247.241" style="border-bottom: none;">qiu</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2022 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>

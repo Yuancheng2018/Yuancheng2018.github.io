@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    qiu的博客
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a class="logo">qiu</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/2022/12/19/Linux_Mining_trojan/Linux_Mining_trojan/th.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Linux挖矿木马应急</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h6 id="1-持续监控进程信息："><a href="#1-持续监控进程信息：" class="headerlink" title="1.持续监控进程信息："></a>1.持续监控进程信息：</h6><p>​		top 后c<br>​		动态跟踪进程：top -p 进程id</p>
+<h6 id="2-查看进程瞬时信息："><a href="#2-查看进程瞬时信息：" class="headerlink" title="2.查看进程瞬时信息："></a>2.查看进程瞬时信息：</h6><p>​		ps aux,ps -ef,ps -ef|grep<br>​		按照CPU降序： ps aux –sort&#x3D;-%cpu<br>​		按照内存降序： ps aux –sort&#x3D;-rss<br>​		将-%cpu改为+%cpu则变成CPU升序；-rss改为+rss则变为内存升序</p>
+<h6 id="3-kill-9-PID-杀掉恶意进程，后续观察，如果重启则表示存在定时任务或者守护进程"><a href="#3-kill-9-PID-杀掉恶意进程，后续观察，如果重启则表示存在定时任务或者守护进程" class="headerlink" title="3.kill -9 PID　杀掉恶意进程，后续观察，如果重启则表示存在定时任务或者守护进程"></a>3.kill -9 PID　杀掉恶意进程，后续观察，如果重启则表示存在定时任务或者守护进程</h6><h6 id="4-ps-ef-grep-“进程名”-查看恶意进程路径"><a href="#4-ps-ef-grep-“进程名”-查看恶意进程路径" class="headerlink" title="4.ps -ef |grep “进程名” 查看恶意进程路径"></a>4.ps -ef |grep “进程名” 查看恶意进程路径</h6><h6 id="5-start-xxx-确认文件夹生成时间"><a href="#5-start-xxx-确认文件夹生成时间" class="headerlink" title="5.start xxx 确认文件夹生成时间"></a>5.start xxx 确认文件夹生成时间</h6><h6 id="6-进入恶意进程所在文件夹，留底后删除-cd-x2F-proc-x2F-进程id-x2F-exe"><a href="#6-进入恶意进程所在文件夹，留底后删除-cd-x2F-proc-x2F-进程id-x2F-exe" class="headerlink" title="6.进入恶意进程所在文件夹，留底后删除 cd &#x2F;proc&#x2F;进程id&#x2F;exe"></a>6.进入恶意进程所在文件夹，留底后删除 cd &#x2F;proc&#x2F;进程id&#x2F;exe</h6><h6 id="7-排查定时任务："><a href="#7-排查定时任务：" class="headerlink" title="7.排查定时任务："></a>7.排查定时任务：</h6><p>​		&#x2F;var&#x2F;spool&#x2F;cron&#x2F; 这个目录下存放的是每个用户包括root的crontab任务，每个任务以创建者的名字命名<br>​		&#x2F;etc&#x2F;cron.d&#x2F; 这个目录用来存放任何要执行的crontab文件或脚本<br>​		1、查看定时任务：cd &#x2F;var&#x2F;spool&#x2F;cron、ls、cat xxx<br>​		2、若存在异常定时任务，留底后删除<br>​		3、删除定时任务后在杀掉恶意进程</p>
+<h6 id="8-linux系统日志排查："><a href="#8-linux系统日志排查：" class="headerlink" title="8.linux系统日志排查："></a>8.linux系统日志排查：</h6><p>​		1、根据定时任务中发现的脚本名称xxx，在计划任务日志中搜索设置计划任务的时间：&#x2F;var&#x2F;log&#x2F;cron<br>​		2、cat cron-xxx|grep xxx<br>​		3、根据找到的时间点，排查相关时间是否存在登录日志：&#x2F;var&#x2F;log&#x2F;secure<br>​		4、检查messages日志（记录系统重要信息的日志），查看相关时间是否存在异常日志：&#x2F;var&#x2F;log&#x2F;messages<br>​		5、检查是否存在登录失败日志：&#x2F;var&#x2F;log&#x2F;btmp 该文件为二进制文件，可使用cat或lastb -f查看</p>
+<h6 id="tips"><a href="#tips" class="headerlink" title="tips:"></a>tips:</h6><ol>
+<li><p>使用netstat -antlp|more;或者netstat -ano|more发现异常外连后，运行ls -l &#x2F;proc&#x2F;$PID&#x2F;exe或file &#x2F;proc&#x2F;$PID&#x2F;exe($PID 为对应的pid 号)可找到启动文件</p>
+</li>
+<li><p>在做入侵排查前使用命令HISTFILE&#x3D;&#x2F;dev&#x2F;null，将本次shell下执行的命令不写入.bash_history中避免干扰之前的历史命令，该命令仅针对当次shell有效，重开shell后需要重新执行该命令</p>
+</li>
+<li><p>可能存在ps、netstat、ls等命令异常，可能是已被攻击者或病毒木马等替换，此时需要及时删除这些命令文件，使用正确的文件，以便于再次启动恶意文件,拷贝本地的正确命令文件到受攻击的主机,先将被替换的文件拷贝到tmp目录，mv  &#x2F;bin&#x2F;ls &#x2F;tmp ，再将本地文件拷贝到受害主机即可（切记不要删除原有文件，先备份，与客户沟通后，由客户决定是否删除，切勿自行决断）</p>
+</li>
+<li><p>若是流量侧设备告警，可查询威胁情报，威胁情报中可能存在相似攻击路径</p>
+</li>
+</ol>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;2021.02.25<a href="" style="border-bottom: none;"></a></li>
+                <li>Create By <a target="_blank" rel="noopener" href="http://81.69.247.241" style="border-bottom: none;">qiu</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2022 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
