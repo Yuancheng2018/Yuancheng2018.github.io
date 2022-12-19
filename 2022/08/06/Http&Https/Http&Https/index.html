@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    qiu的博客
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a class="logo">qiu</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/2022/08/06/Http&amp;Https/Http&amp;Https/th.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >Http&amp;Https</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h4 id="HTTP优缺："><a href="#HTTP优缺：" class="headerlink" title="HTTP优缺："></a>HTTP优缺：</h4><h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><ol>
+<li>http的灵活性高，可扩展性强，从http1.0到http1.1再到http2.x，http协议一直在进行扩展新的属性。</li>
+<li>可靠传输，因为http协议是基于tcp协议的一种应用层协议，tcp协议就是可靠传输协议。</li>
+<li>请求应答，有来有回</li>
+<li>无状态的，每一个请求都是相互独立的，默认不需要保存上下文的信息，组集群可让负载均衡设备把请求任意分配。</li>
+</ol>
+<h5 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h5><ol>
+<li>明文传输不安全</li>
+<li>复用一个TCP连接，会发生对头阻塞情况， 1.1引入长连接，在一个tcp上发送多个http，两种模式：管道化&amp;非管道化</li>
+</ol>
+<p> a) 非管道化：完全串行，请求&gt;响应&gt;请求&gt;响应</p>
+<p> b) 管道化：允许在收到响应之前发送请求，但是由于http协议是无序的，服务 器端必须串行，依然存在阻塞</p>
+<p> HTTP2中引入帧&#x2F;消息&#x2F;数据流的概念（区别于四层模型），每个请求&#x2F;响应被称为消 息，每个消息都被拆分成若干个帧进行传输，每个帧都分配一个序号。每个帧在传 输是属于一个数据流，而一个连接上可以存在多个流，各个帧在流和连接上独立传 输，到达之后在组装成消息，这样就避免了请求&#x2F;响应阻塞。但是http还是基于tcp 实现，存在tcp队头阻塞（tcp可靠传输，体现就是按序到达。）</p>
+<p> HTTP3 QUIC 的形式实现一个全新的传输层协议。它运行在不可靠的 UDP 协议之 上。但它包括 TCP 的所有特性（可靠性、拥塞控制、流量控制、排序等），且集成 了TLS，不允许未加密的连接</p>
+<ol>
+<li>无状态的，头比身子大</li>
+<li>http1.1客户端拉取资源，要啥给啥，HTTP2可以提前把可能用到的JS等推给客户端</li>
+</ol>
+<h4 id="HTTPS："><a href="#HTTPS：" class="headerlink" title="HTTPS："></a>HTTPS：</h4><img src="/2022/08/06/Http&Https/Http&Https/image-20220712105736722.png" class="" title="image-20220712105736722">
+
+<p>HTTPS是一种通过计算机网络进行安全通信的传输协议，经由HTTP进行通信，利用SSL&#x2F;TLS建立全信道，加密数据包。HTTPS使用的主要目的是提供对网站服务器的身份认证，同时保护交换数据的隐私与完整性。TLS是传输层加密协议，前身是SSL协议，相当于SSL3.1。</p>
+<img src="/2022/08/06/Http&Https/Http&Https/image-20220712105755720.png" class="" title="image-20220712105755720">
+            </div>
+
+            <!-- Post Comments -->
+            
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;2021.02.25<a href="" style="border-bottom: none;"></a></li>
+                <li>Create By <a target="_blank" rel="noopener" href="http://81.69.247.241" style="border-bottom: none;">qiu</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2022 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
