@@ -119,8 +119,7 @@
                 <h1 id="Windows-amp-Linux系统日志分析"><a href="#Windows-amp-Linux系统日志分析" class="headerlink" title="Windows &amp; Linux系统日志分析"></a>Windows &amp; Linux系统日志分析</h1><h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><h3 id="日志文件打开："><a href="#日志文件打开：" class="headerlink" title="日志文件打开："></a>日志文件打开：</h3><p>1、 Windows安全日志文件存储位置：</p>
 <p><code>C:\Windows\System32\winevt\Logs\Security.etvx</code></p>
 <p>Windows 2000 &#x2F; Server2003 &#x2F; Windows XP 安全日志默认位置:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\WINDOWS\System32\config\SecEvent.Evt</span><br></pre></td></tr></table></figure>
-
+<p><code>C:\WINDOWS\System32\config\SecEvent.Evt</code></p>
 <p>2、 Win+R后执行eventvwr查看windows系统安全日志</p>
 <h3 id="日志分类："><a href="#日志分类：" class="headerlink" title="日志分类："></a>日志分类：</h3><p>1、 系统日志：系统日志包含由Windows系统组件记录的事件，记录系统进程和设备驱动程序的活动。由它审核的系统事件包括启动失败的设备驱动程序、硬件错误、重复的IP地址以及服务启动、暂停和停止。系统日志也记录启动期间要加载的驱动程序或其他系统组件的故障，记录的事件类型也是预先确定的。</p>
 <p>2<strong>、 安全日志：安全日志记录各种系统审核和安全处理，包括用户权限的变化、文件和目录的访问、打印以及用户系统登陆和注销，如有效或无效的登陆尝试、与资源使用有关的事件。管理员有按需要指定安全日志中要记录的事件类型，安全日志只有系统管理员可以访问。</strong></p>
@@ -394,37 +393,27 @@
 </tbody></table>
 <h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux:"></a>Linux:</h2><img src="/2023/02/08/Windows&Linux/Windows&Linux/image-20230208213626225.png" class="" title="image-20230208213626225">
 
-<h3 id="日志文件默认位置："><a href="#日志文件默认位置：" class="headerlink" title="日志文件默认位置："></a>日志文件默认位置：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/var/log/</span><br></pre></td></tr></table></figure>
-
+<h3 id="日志文件默认位置："><a href="#日志文件默认位置：" class="headerlink" title="日志文件默认位置："></a>日志文件默认位置：</h3><p><code>/var/log/</code></p>
 <p>查看日志配置情况：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">more /etc/rsyslog.conf</span><br></pre></td></tr></table></figure>
-
+<p><code>more /etc/rsyslog.conf</code></p>
 <p>中间件日志也会在该目录下，nginx，tomcat</p>
-<h3 id="日志文件说明："><a href="#日志文件说明：" class="headerlink" title="日志文件说明："></a>日志文件说明：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;cron</span><br></pre></td></tr></table></figure>
-
+<h3 id="日志文件说明："><a href="#日志文件说明：" class="headerlink" title="日志文件说明："></a>日志文件说明：</h3><p><code>/var/log/cron</code></p>
 <p> 记录了系统定时任务相关的日志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;cups</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/cups</code></p>
 <p> 记录打印信息的日志</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;dmesg</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/dmesg</code></p>
 <p> 记录了系统在开机时内核自检的信息，也可以使用dmesg命令直接查看内核自检信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;mailog</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/mailog</code></p>
 <p> 记录邮件信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;message</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/message</code></p>
 <p> 记录系统重要信息的日志。这个日志文件中会记录Linux系统的绝大多数重要信息，如果系 统出现问题时，首先要检查的就应该是这个日志文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;btmp</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/btmp</code></p>
 <p> 记录错误登录日志，这个文件是二进制文件，不能直接vi查看，而要使用lastb命令查看，lastb –time-format iso，</p>
 <img src="/2023/02/08/Windows&Linux/Windows&Linux/image-20230208213700078.png" class="" title="image-20230208213700078">
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;lastlog</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/lastlog</code></p>
 <p> 记录系统中所有用户后一次登录时间的日志，这个文件是二进制文件，不能直接vi，而要 使用lastlog命令查看</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;wtmp</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/wtmp</code></p>
 <p> 永久记录所有用户的登录、注销信息，同时记录系统的启动、重启、关机事件。同样这个文 件也是一个二进制文件，不能直接vi，而需要使用last命令来查看，last 命名会默认从wtmp文件中读取数据。所以我们可以不用添加wtmp文件路径，但是如果使用 last -f 就需要我们主动添加wtmp路径了。last –time-format iso</p>
 <img src="/2023/02/08/Windows&Linux/Windows&Linux/image-20230208213711942.png" class="" title="image-20230208213711942">
 
@@ -436,45 +425,35 @@
 <li>退出时间： –time-format iso格式化</li>
 <li>耗时：如果显示still logged in。表示当前仍然属于登录状态。</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;utmp</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/utmp</code></p>
 <p> 记录当前已经登录的用户信息，这个文件会随着用户的登录和注销不断变化，只记录当前登 录用户的信息。同样这个文件不能直接vi，而要使用w,who,users等命令来查询</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;var&#x2F;log&#x2F;secure</span><br></pre></td></tr></table></figure>
-
+<p><code>/var/log/secure</code></p>
 <p> 记录验证和授权方面的信息，只要涉及账号和密码的程序都会记录，比如SSH登录，su切换 用户，sudo授权，甚至添加用户和修改用户密码都会记录在这个日志文件中，可用cat或vim查看</p>
-<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">grep -A 5 qiu filename 显示文件里匹配qiu字串及后5行</span><br><span class="line"></span><br><span class="line">grep -B 5 qiu filename 显示文件里匹配qiu字串及前5行</span><br><span class="line"></span><br><span class="line">grep -C 5 qiu filename 显示文件里匹配qiu字串及前后5行</span><br><span class="line"></span><br><span class="line">grep -rn “qiu” 查找包含qiu的文件</span><br></pre></td></tr></table></figure>
-
-
-
+<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><p><code>grep -A 5 qiu filename 显示文件里匹配qiu字串及后5行</code></p>
+<p><code>grep -B 5 qiu filename 显示文件里匹配qiu字串及前5行</code></p>
+<p><code>grep -C 5 qiu filename 显示文件里匹配qiu字串及前后5行</code></p>
+<p><code>grep -rn “qiu” 查找包含qiu的文件</code></p>
 <ol>
 <li>-r 是递归查找</li>
 <li>-n 是显示行号</li>
 <li>-R 查找所有文件包含子目录</li>
 <li>-i 忽略大小写</li>
 </ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat filename |tail -n +1000 | head -n -2000</span><br></pre></td></tr></table></figure>
-
+<p><code>cat filename |tail -n +1000 | head -n -2000</code></p>
 <p> 显示从1000行开始的2000行。1000~2999行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/passwd | awk -F ‘:’ ‘&#123;print $1&#125;</span><br></pre></td></tr></table></figure>
-
+<p><code>cat /etc/passwd | awk -F ‘:’ ‘&#123;print $1&#125;</code></p>
 <p> awk -F指定域分隔符为’:’，将记录按指定的域分隔符划分域，填充域， $0则表示所有域,$1表示第一个域, $n表示第n个域。 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sed -i ’23,$d’ .bash_history</span><br></pre></td></tr></table></figure>
-
+<p><code>sed -i ’23,$d’ .bash_history</code></p>
 <p> 删除历史操作，保留前23行</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;Failed password for root&quot; /var/log/secure | awk &#x27;&#123;print $11&#125;&#x27; | sort | uniq -c | sort -nr | more</span><br></pre></td></tr></table></figure>
-
+<p><code>grep &quot;Failed password for root&quot; /var/log/secure | awk &#39;&#123;print $11&#125;&#39; | sort | uniq -c | sort -nr | more</code></p>
 <p> 定位有多少IP在爆破root账号</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;Failed password&quot; /var/log/secure|grep -E -o &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\. (25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4] [0-9]|[01]?[0-9][0-9]?)&quot;|uniq -c</span><br></pre></td></tr></table></figure>
-
+<p><code>grep &quot;Failed password&quot; /var/log/secure|grep -E -o &quot;(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\. (25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4] [0-9]|[01]?[0-9][0-9]?)&quot;|uniq -c</code></p>
 <p>定位有那些IP在爆破root账号</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;Failed password&quot; /var/log/secure|perl -e &#x27;while($_=&lt;&gt;)&#123; /for(.*?) from/; print &quot;$1\n&quot;;&#125;&#x27;|uniq -c|sort -nr</span><br></pre></td></tr></table></figure>
-
+<p><code>grep &quot;Failed password&quot; /var/log/secure|perl -e &#39;while($_=&lt;&gt;)&#123; /for(.*?) from/; print &quot;$1\n&quot;;&#125;&#39;|uniq -c|sort -nr</code></p>
 <p>  统计爆破的字典</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;Accepted &quot; /var/log/secure | awk &#x27;&#123;print $11&#125;&#x27; | sort | uniq -c | sort -nr | more</span><br></pre></td></tr></table></figure>
-
+<p><code>grep &quot;Accepted &quot; /var/log/secure | awk &#39;&#123;print $11&#125;&#39; | sort | uniq -c | sort -nr | more</code></p>
 <p> 统计登录成功的IP</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &quot;Accepted &quot; /var/log/secure | awk &#x27;&#123;print $1,$2,$3,$9,$11&#125;&#x27;</span><br></pre></td></tr></table></figure>
-
+<p><code>grep &quot;Accepted &quot; /var/log/secure | awk &#39;&#123;print $1,$2,$3,$9,$11&#125;&#39;</code></p>
 <p> 登录成功的日期，用户名，IP</p>
 
             </div>
